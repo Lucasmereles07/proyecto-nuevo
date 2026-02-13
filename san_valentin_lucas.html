@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Querés ser mi San Valentín? 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff4e8a, #ff9ecf);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      max-width: 400px;
+      animation: fadeIn 1.5s ease-in-out;
+      z-index: 10;
+    }
+
+    h1 { font-size: 26px; margin-bottom: 20px; }
+    p { font-size: 18px; margin-bottom: 20px; }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .yes { background-color: #ffffff; color: #ff4e8a; font-weight: bold; }
+    .yes:hover { transform: scale(1.1); }
+    .no { background-color: #ff1e56; color: white; transition: 0.1s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heart {
+      position: absolute;
+      color: white;
+      font-size: 20px;
+      animation: floatUp 4s linear infinite;
+      bottom: -10vh;
+    }
+
+    @keyframes floatUp {
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body onclick="playMusic()"> <div class="card">
+    <h1>💘 Hola Ash (Meme Tikitita) 💘</h1>
+    <img src="foto.jpg" alt="Nosotros" style="width:100%; max-width:280px; border-radius:20px; margin-bottom:15px; box-shadow:0 8px 20px rgba(0,0,0,0.4);">
+    <p>
+      Desde que empezamos el 20/04/2025 mi vida es mejor porque estas vos ✨<br><br>
+      Sos mi meme hemosha y no cambio lo nuestro por nada 💖<br><br>
+      ¿Querés ser mi San Valentín este año y todo lo que resta de vida, Ashley Cabrera?
+    </p>
+    
+    <div id="counter" style="font-size: 16px; margin-bottom: 20px; font-weight: bold;"></div>
+
+    <div class="buttons">
+      <button class="yes" onclick="sayYes()">Sí 💖</button>
+      <button class="no" id="btnNo" onmouseover="moveButton()">No 😢</button>
+    </div>
+  </div>
+
+  <audio id="romanticAudio" loop>
+    <source src="siempre_sere.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById("romanticAudio");
+    let musicStarted = false;
+
+    function playMusic() {
+      if (!musicStarted) {
+        audio.currentTime = 145; // Empieza en 2:25
+        audio.play().catch(e => console.log("Esperando interacción..."));
+        musicStarted = true;
+      }
+    }
+
+    // Controlar el bucle manualmente si lo deseas entre segundos específicos
+    audio.addEventListener("timeupdate", () => {
+      if (audio.currentTime >= 226) { // 3:46
+        audio.currentTime = 145;
+      }
+    });
+
+    function sayYes() {
+      document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;text-align:center;color:white;">
+          <h1 style="font-size: 40px;">Sabía que ibas a decir que sí 😍💍</h1>
+          <p style="font-size: 24px;">Te amo infinitamente ❤️</p>
+        </div>
+      `;
+      createHearts();
+    }
+
+    function moveButton() {
+      const btn = document.getElementById("btnNo");
+      // Evita que se salga de la pantalla
+      const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+      btn.style.position = "absolute";
+      btn.style.left = x + "px";
+      btn.style.top = y + "px";
+      playMusic(); // Si intenta dar clic en NO, empieza la música
+    }
+
+    function createHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.innerText = "💖";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }, 300);
+    }
+
+    // Contador de días preciso
+    const startDate = new Date(2025, 3, 20); // 3 es Abril
+    const today = new Date();
+    const diffTime = Math.abs(today - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("counter").innerHTML = `Llevamos juntos <strong>${diffDays} días</strong> 💕`;
+  </script>
+</body>
+</html>
